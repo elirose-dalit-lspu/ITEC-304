@@ -6,7 +6,17 @@ app = Flask(__name__)
 @app.route('/')
 def home():
 return """
-
+<html>
+<body>
+<h2>Welcome to the greeter</h2>
+<form action="/greet">
+   What is your name? <input type='text' name='username'><br>
+   What is your favorite food? <input type='text' name='favefood'><br>
+   <input type='submit' value='Continue'><br>
+</form>
+</body>
+</html>
+"""
 @app.route('/')
 def greet():
   username = request.args.get('username', 'World')
