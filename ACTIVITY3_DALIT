@@ -1,0 +1,81 @@
+from distutils.command.upload import upload
+from flask import Flask, request
+from datetime import datetime
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return """
+    <style>
+    input[type=text] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 3px solid #555;
+  text-align: center;
+  font-size: 20px;
+  
+}
+input[type=submit]{
+  background-color: #87CEEB;
+  color: black;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+}
+input[type=reset]{
+  background-color: #87CEEB;
+  color: black;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  }
+h1 {
+    text-align: center;
+    color: #87CEEB;
+    
+}
+p {
+text-align: center;
+}
+
+
+
+</style>
+    <html><body>
+        <h1>Welcome to the Greeter</h1>
+        <form action="/greet">
+          <p>What's your name? <input type ='text' name='username'></p><br>
+          <p>What's your characteristics? <input type='text' name='character'><p><br>
+          How old are you? <input type='text' name='age'>
+          <input type='submit' value='Continue'>
+          <input type="reset" value="Reset">
+         </form>
+        </body></html>
+        """
+
+
+@app.route('/greet')
+def greet():
+    username = request.args.get('username', 'World')
+    character = request.args['character']
+    age = request.args['age']
+    if character == '':
+        msg = 'You did not tell me your character.'
+    if age == '':
+        msg = 'You did not tell me your age.'
+    else:
+        msg = "hi my name is", username +  "and i am " + character +  "my age is" + age
+
+    return """
+         <html><body>
+            <h2>Hello, {0}! </h2>
+            {1}
+      </body></html>
+      """.format(username, msg)
+
+
+# Launch the Flaskpy dev server
+app.run(host="localhost", debug=True)
